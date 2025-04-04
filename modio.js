@@ -21,6 +21,7 @@ class modio {
           opcode: 'gamereg',
           text: 'Use Game ID [idkey] and API Key [apikey]',
           blockType: Scratch.BlockType.COMMAND,
+          disableMonitor: true,
           arguments: {
             idkey: {
               type: Scratch.ArgumentType.NUMBER,
@@ -49,6 +50,7 @@ class modio {
           opcode: 'getmods',
           text: 'Fetch Mod Data URL [subject]',
           blockType: Scratch.BlockType.REPORTER,
+          disableMonitor: true,
           arguments: {
             subject: {
               type: Scratch.ArgumentType.STRING,
@@ -59,15 +61,19 @@ class modio {
         {
           opcode: 'getmodsmulti',
           text: 'Fetch Mods',
+          disableMonitor: true,
           blockType: Scratch.BlockType.REPORTER,
           arguments: {
-            query: {
-              type: Scratch.ArgumentType.STRING,
-              defaultValue: ""
-            }
           }
         },
-        '---'
+        {
+          opcode: 'getguidesmulti',
+          text: 'Fetch Guides',
+          disableMonitor: true,
+          blockType: Scratch.BlockType.REPORTER,
+          arguments: {
+          }
+        }
 
       ],
       menus: {
@@ -121,12 +127,27 @@ class modio {
 
   getmodsmulti(args) {
     const query = args.query;
-    return getmods(query);
+    return getmods();
+  }
+
+  getguidesmulti(args) {
+    const query = args.query;
+    return getguides();
   }
 }
 
 async function getmods() {
   const response = await fetch('https://g-' + gameid + '.modapi.io/v1/games/' + gameid + '/mods?api_key=' + ApiKeylabel);
+  if (!response.ok) {
+    return error;
+  }
+  const data = await response.json();
+  console.log(data)
+  return JSON.stringify(data)
+}
+
+async function getguides() {
+  const response = await fetch('https://g-' + gameid + '.modapi.io/v1/games/' + gameid + '/guides?api_key=' + ApiKeylabel);
   if (!response.ok) {
     return error;
   }
