@@ -13,7 +13,7 @@ class modio {
       id: 'modio',
       name: 'Mod.io Extension',
       menuIconURI: picture,
-      blockIconURI: picture,
+      blockIconURI: picture2,
       color1: '#1f5762',
       color2: '#006A8C', 
       color3: '#1C1C1C', 
